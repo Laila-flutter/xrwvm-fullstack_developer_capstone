@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: senti-analyzer
+  name: senti-analyzer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: senti-analyzer
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: senti-analyzer
+    spec:
+      containers:
+      - image: us.icr.io/sn-labs-laly0515/senti_analyzer:latest
+        imagePullPolicy: Always
+        name: senti-analyzer
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+      restartPolicy: Always

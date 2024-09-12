@@ -7,6 +7,27 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
+
+from django.db import models
+
+class Dealer(models.Model):
+    name = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    # Other fields...
+
+    def __str__(self):
+        return self.name
+
+class Review(models.Model):
+    dealer = models.ForeignKey(Dealer, on_delete=models.CASCADE)
+    review_text = models.TextField()
+    rating = models.PositiveIntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review for {self.dealer.name} - Rating: {self.rating}"
+
+
 # <HINT> Create a Car Make model `class CarMake(models.Model)`:
 class CarMake(models.Model):
     name = models.CharField(max_length=100)
